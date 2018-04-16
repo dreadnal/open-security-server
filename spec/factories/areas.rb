@@ -3,6 +3,6 @@ FactoryBot.define do
     floor_id nil
 
     name { Faker::Lorem.word }
-    data ""
+    data { Faker::Lorem.paragraph }
   end
 end
