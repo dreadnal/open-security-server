@@ -1,0 +1,1 @@
+OpenSecurity::Application.config.secret_key_base = 'a6a95e510dbc707c8484345e4abb2003046886058c74b72dcb70f230356aed953055fd3940a28f8f47eb7f928ba683e6d32a345e2d590dc9cc2008c935739a0e'
