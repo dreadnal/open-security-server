@@ -4,7 +4,7 @@ FactoryBot.define do
   
     name { Faker::Lorem.word }
     address "127.0.0.1"
-    name { Faker::Lorem.paragraph }
-    data ""
+    note { Faker::Lorem.paragraph }
+    data { Faker::Lorem.paragraph }
   end
 end
