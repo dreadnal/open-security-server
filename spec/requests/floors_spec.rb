@@ -34,7 +34,7 @@ RSpec.describe 'Floors API', type: :request do
     end
 
     context 'when the record does not exist' do
-      let(:floor_id) { 100 }
+      let(:floor_id) { 0 }
 
       it 'returns status code 404' do
         expect(response).to have_http_status(404)
