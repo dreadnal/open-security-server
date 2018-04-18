@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(version: 20180412215635) do
     t.string "address"
     t.string "note"
     t.text "data"
+    t.string "api_key"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["area_id"], name: "index_sensors_on_area_id"

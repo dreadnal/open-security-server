@@ -7,6 +7,7 @@ class CreateSensors < ActiveRecord::Migration[5.1]
       t.string :address
       t.string :note
       t.text :data
+      t.string :api_key
 
       t.timestamps
     end
