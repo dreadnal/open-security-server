@@ -6,4 +6,7 @@ Rails.application.routes.draw do
   resources :event_types
   resources :sensor_types
   resources :settings
+  resources :cameras
+  resources :events
+  resources :sensors
 end
