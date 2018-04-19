@@ -87,7 +87,7 @@ RSpec.describe 'Cameras API', type: :request do
 
       it 'creates a cameras' do
         expect(json['name']).to eq('Test camera')
-        expect(json['address']).to eq('address')
+        expect(json['address']).to eq('127.0.0.1')
         expect(json['note']).to eq('test camera note')
         expect(json['data']).to eq('test camera data')
       end
