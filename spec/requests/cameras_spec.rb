@@ -78,6 +78,34 @@ RSpec.describe 'Cameras API', type: :request do
     end
   end
 
+  # Test suite for GET /floors/:floor_id/cameras/:id
+  describe 'GET /floors/:floor_id/cameras/:id' do
+    before { get "/floors/#{floor_id}/cameras/#{camera_id}" }
+
+    context 'when the record exists' do
+      it 'returns the cameras' do
+        expect(json).not_to be_empty
+        expect(json['id']).to eq(camera_id)
+      end
+
+      it 'returns status code 200' do
+        expect(response).to have_http_status(200)
+      end
+    end
+
+    context 'when the record does not exist' do
+      let(:camera_id) { 0 }
+
+      it 'returns status code 404' do
+        expect(response).to have_http_status(404)
+      end
+ 
+      it 'returns a not found message' do
+        expect(response.body).to match(/Couldn't find Camera/)
+      end
+    end
+  end
+
   # Test suite for POST /areas/:area_id/cameras
   describe 'POST /areas/:area_id/cameras' do
     let(:valid_attributes) { { name: 'Test camera', address: '127.0.0.1', note: 'test camera note', data: 'test camera data' } }

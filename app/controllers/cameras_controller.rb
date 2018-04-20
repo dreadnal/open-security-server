@@ -8,7 +8,7 @@ class CamerasController < ApplicationController
   # GET /areas/:area_id/cameras
   # GET /cameras
   def index
-    @cameras = Camera.select{|camera| camera.area.floor == @floor} if @floor
+    @cameras = Camera.joins(:area).where({ areas: { floor_id: @floor.id } }) if @floor
     @cameras = @area.cameras if @area
     @cameras = Camera.all unless @floor || @area
     json_response(@cameras)
@@ -58,7 +58,7 @@ class CamerasController < ApplicationController
   end
   
   def set_camera
-    @camera = Camera.select{|camera| camera.area.floor == @floor}.find_by!(id: params[:id]) if @floor
+    @camera = Camera.joins(:area).where({ areas: { floor_id: @floor.id } }).find_by!(id: params[:id]) if @floor
     @camera = @area.cameras.find_by!(id: params[:id]) if @area
     @camera = Camera.find(params[:id]) unless @floor || @area
   end
