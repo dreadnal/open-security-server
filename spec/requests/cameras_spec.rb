@@ -195,7 +195,7 @@ RSpec.describe 'Cameras API', type: :request do
     end
   end
 
-  # Test suite for DELETE /cameras/:id
+  # Test suite for DELETE /areas/:area_id/cameras/:id
   describe 'DELETE /areas/:area_id/cameras/:id' do
     before { delete "/areas/#{area_id}/cameras/#{camera_id}" }
 
