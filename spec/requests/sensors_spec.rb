@@ -150,18 +150,20 @@ RSpec.describe 'Sensor API', type: :request do
     end
   end
 
-  # Test suite for POST /areas/:area_id/cameras
-  describe 'POST /areas/:area_id/cameras' do
-    let(:valid_attributes) { { name: 'Test camera', address: '127.0.0.1', note: 'test camera note', data: 'test camera data' } }
+  # Test suite for POST /areas/:area_id/sensors
+  describe 'POST /areas/:area_id/sensors' do
+    let(:valid_attributes) { { name: 'Test sensor', address: '127.0.0.1', note: 'test sensor note', data: 'test sensor data', api_key: 'apikey', sensor_type_id: sensor_type_id } }
 
     context 'when the request is valid' do
-      before { post "/areas/#{area_id}/cameras", params: valid_attributes }
+      before { post "/areas/#{area_id}/sensors", params: valid_attributes }
 
-      it 'creates a cameras' do
-        expect(json['name']).to eq('Test camera')
+      it 'creates a sensors' do
+        expect(json['name']).to eq('Test sensor')
         expect(json['address']).to eq('127.0.0.1')
-        expect(json['note']).to eq('test camera note')
-        expect(json['data']).to eq('test camera data')
+        expect(json['note']).to eq('test sensor note')
+        expect(json['data']).to eq('test sensor data')
+        expect(json['api_key']).to eq('apikey')
+        expect(json['sensor_type_id']).to eq(sensor_type_id)
       end
 
       it 'returns status code 201' do
@@ -170,7 +172,7 @@ RSpec.describe 'Sensor API', type: :request do
     end
 
     context 'when the request is invalid' do
-      before { post "/areas/#{area_id}/cameras", params: { address: '127.0.0.1', note: 'test camera note', data: 'test camera data' } }
+      before { post "/areas/#{area_id}/sensors", params: { address: '127.0.0.1', note: 'test sensor note', data: 'test sensor data', api_key: 'apikey', sensor_type_id: sensor_type_id } }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
@@ -183,7 +185,7 @@ RSpec.describe 'Sensor API', type: :request do
     end
 
     context 'when the request is invalid' do
-      before { post "/areas/#{area_id}/cameras", params: { name: 'Test camera', note: 'test camera note', data: 'test camera data' } }
+      before { post "/areas/#{area_id}/sensors", params: { name: 'Test sensor', note: 'test sensor note', data: 'test sensor data', api_key: 'apikey', sensor_type_id: sensor_type_id } }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
@@ -196,7 +198,7 @@ RSpec.describe 'Sensor API', type: :request do
     end
 
     context 'when the request is invalid' do
-      before { post "/areas/#{area_id}/cameras", params: { name: 'Test camera', address: '127.0.0.1', data: 'test camera data' } }
+      before { post "/areas/#{area_id}/sensors", params: { name: 'Test sensor', address: '127.0.0.1', data: 'test sensor data', api_key: 'apikey', sensor_type_id: sensor_type_id } }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
@@ -209,7 +211,7 @@ RSpec.describe 'Sensor API', type: :request do
     end
 
     context 'when the request is invalid' do
-      before { post "/areas/#{area_id}/cameras", params: { name: 'Test camera', address: '127.0.0.1', note: 'test camera note' } }
+      before { post "/areas/#{area_id}/sensors", params: { name: 'Test sensor', address: '127.0.0.1', note: 'test sensor note', api_key: 'apikey', sensor_type_id: sensor_type_id } }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
@@ -220,14 +222,40 @@ RSpec.describe 'Sensor API', type: :request do
           .to match(/Validation failed: Data can't be blank/)
       end
     end
+
+    context 'when the request is invalid' do
+      before { post "/areas/#{area_id}/sensors", params: { name: 'Test sensor', address: '127.0.0.1', note: 'test sensor note', data: 'test sensor data', sensor_type_id: sensor_type_id } }
+
+      it 'returns status code 422' do
+        expect(response).to have_http_status(422)
+      end
+
+      it 'returns a validation failure message' do
+        expect(response.body)
+          .to match(/Validation failed: Api key can't be blank/)
+      end
+    end
+
+    context 'when the request is invalid' do
+      before { post "/areas/#{area_id}/sensors", params: { name: 'Test sensor', address: '127.0.0.1', note: 'test sensor note', data: 'test sensor data', api_key: 'apikey' } }
+
+      it 'returns status code 422' do
+        expect(response).to have_http_status(422)
+      end
+
+      it 'returns a validation failure message' do
+        expect(response.body)
+          .to match(/Validation failed: Sensor type must exist/)
+      end
+    end
   end
 
-  # Test suite for PUT /areas/:area_id/cameras/:id
-  describe 'PUT /areas/:area_id/cameras/:id' do
-    let(:valid_attributes) { { name: 'Second test camera', address: 'localhost', note: 'second test camera note', data: 'second test camera data' } }
+  # Test suite for PUT /areas/:area_id/sensors/:id
+  describe 'PUT /areas/:area_id/sensors/:id' do
+    let(:valid_attributes) { { name: 'Second test sensor', address: 'localhost', note: 'second test sensor note', data: 'second test sensor data', api_key: 'apikey2' } }
 
     context 'when the record exists' do
-      before { put "/areas/#{area_id}/cameras/#{camera_id}", params: valid_attributes }
+      before { put "/areas/#{area_id}/sensors/#{sensor_id}", params: valid_attributes }
 
       it 'updates the record' do
         expect(response.body).to be_empty
