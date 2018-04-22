@@ -31,7 +31,6 @@ RSpec.describe 'Event API', type: :request do
   # Test suite for GET /floors/:floor_id/events/unread
   describe 'GET /floors/:floor_id/events/unread' do
     before { get "/floors/#{floor_id}/events/unread" }
-
     it 'returns unread events' do
       expect(json).not_to be_empty
       expect(json.size).to eq(10)
@@ -47,8 +46,7 @@ RSpec.describe 'Event API', type: :request do
     before { get "/floors/#{floor_id}/events/read" }
 
     it 'returns read events' do
-      expect(json).not_to be_empty
-      expect(json.size).to eq(0)
+      expect(json).to be_empty
     end
 
     it 'returns status code 200' do
@@ -89,8 +87,7 @@ RSpec.describe 'Event API', type: :request do
     before { get "/floors/#{floor_id}/event_types/#{event_type_id}/events/read" }
 
     it 'returns read events' do
-      expect(json).not_to be_empty
-      expect(json.size).to eq(0)
+      expect(json).to be_empty
     end
 
     it 'returns status code 200' do
@@ -131,8 +128,7 @@ RSpec.describe 'Event API', type: :request do
     before { get "/areas/#{area_id}/events/read" }
 
     it 'returns read events' do
-      expect(json).not_to be_empty
-      expect(json.size).to eq(0)
+      expect(json).to be_empty
     end
 
     it 'returns status code 200' do
@@ -173,8 +169,7 @@ RSpec.describe 'Event API', type: :request do
     before { get "/areas/#{area_id}/event_types/#{event_type_id}/events/read" }
 
     it 'returns read events' do
-      expect(json).not_to be_empty
-      expect(json.size).to eq(0)
+      expect(json).to be_empty
     end
 
     it 'returns status code 200' do
@@ -215,8 +210,7 @@ RSpec.describe 'Event API', type: :request do
     before { get "/sensors/#{sensor_id}/events/read" }
 
     it 'returns read events' do
-      expect(json).not_to be_empty
-      expect(json.size).to eq(0)
+      expect(json).to be_empty
     end
 
     it 'returns status code 200' do
@@ -257,8 +251,7 @@ RSpec.describe 'Event API', type: :request do
     before { get "/event_types/#{event_type_id}/events/read" }
 
     it 'returns read events' do
-      expect(json).not_to be_empty
-      expect(json.size).to eq(0)
+      expect(json).to be_empty
     end
 
     it 'returns status code 200' do
@@ -299,8 +292,7 @@ RSpec.describe 'Event API', type: :request do
     before { get '/events/read' }
 
     it 'returns read events' do
-      expect(json).not_to be_empty
-      expect(json.size).to eq(0)
+      expect(json).to be_empty
     end
 
     it 'returns status code 200' do
@@ -420,16 +412,16 @@ RSpec.describe 'Event API', type: :request do
     end
   end
 
-  # Test suite for POST /areas/:area_id/events
-  describe 'POST /areas/:area_id/events' do
-    let(:valid_attributes) { { event_type_id: event_type_id, status: 'unread' } }
+  # Test suite for POST /sensors/:sensor_id/events
+  describe 'POST /sensors/:sensor_id/events' do
+    let(:valid_attributes) { { event_type_id: event_type_id, state: 'unread' } }
 
     context 'when the request is valid' do
-      before { post "/areas/#{area_id}/events", params: valid_attributes }
+      before { post "/sensors/#{sensor_id}/events", params: valid_attributes }
 
       it 'creates a events' do
         expect(json['event_type_id']).to eq(event_type_id)
-        expect(json['status']).to eq('unread')
+        expect(json['state']).to eq('unread')
       end
 
       it 'returns status code 201' do
@@ -438,7 +430,7 @@ RSpec.describe 'Event API', type: :request do
     end
 
     context 'when the request is invalid' do
-      before { post "/areas/#{area_id}/events", params: { event_type_id: event_type_id } }
+      before { post "/sensors/#{sensor_id}/events", params: { event_type_id: event_type_id } }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
@@ -446,12 +438,12 @@ RSpec.describe 'Event API', type: :request do
 
       it 'returns a validation failure message' do
         expect(response.body)
-          .to match(/Validation failed: Status can't be blank/)
+          .to match(/Validation failed: State can't be blank/)
       end
     end
 
     context 'when the request is invalid' do
-      before { post "/areas/#{area_id}/events", params: { status: 'unread' } }
+      before { post "/sensors/#{sensor_id}/events", params: { state: 'unread' } }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
@@ -459,17 +451,17 @@ RSpec.describe 'Event API', type: :request do
 
       it 'returns a validation failure message' do
         expect(response.body)
-          .to match(/Validation failed: Event type can't be blank/)
+          .to match(/Validation failed: Event type must exist/)
       end
     end
   end
 
-  # Test suite for PUT /areas/:area_id/events/:id
-  describe 'PUT /areas/:area_id/events/:id' do
-    let(:valid_attributes) { { event_type_id: event_type_id, status: 'read' } }
+  # Test suite for PUT /sensors/:sensor_id/events/:id
+  describe 'PUT /sensors/:sensor_id/events/:id' do
+    let(:valid_attributes) { { event_type_id: event_type_id, state: 'read' } }
 
     context 'when the record exists' do
-      before { put "/areas/#{area_id}/events/#{event_id}", params: valid_attributes }
+      before { put "/sensors/#{sensor_id}/events/#{event_id}", params: valid_attributes }
 
       it 'updates the record' do
         expect(response.body).to be_empty
@@ -481,9 +473,9 @@ RSpec.describe 'Event API', type: :request do
     end
   end
 
-  # Test suite for DELETE /areas/:area_id/events/:id
-  describe 'DELETE /areas/:area_id/events/:id' do
-    before { delete "/areas/#{area_id}/events/#{event_id}" }
+  # Test suite for DELETE /sensors/:sensor_id/events/:id
+  describe 'DELETE /sensors/:sensor_id/events/:id' do
+    before { delete "/sensors/#{sensor_id}/events/#{event_id}" }
 
     it 'returns status code 204' do
       expect(response).to have_http_status(204)

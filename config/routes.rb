@@ -21,7 +21,7 @@ Rails.application.routes.draw do
 
   resources :areas, only: [:index, :show] do
     resources :cameras, :sensors
-    resources :events do
+    resources :events, only: [:index, :show] do
       collection do
         get 'read'
         get 'unread'
@@ -42,7 +42,7 @@ Rails.application.routes.draw do
   end
 
   resources :sensors, only: [:index, :show] do
-    resources :events, only: [:index, :show] do
+    resources :events do
       collection do
         get 'read'
         get 'unread'
