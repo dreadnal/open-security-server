@@ -1,13 +1,18 @@
 class AreasController < ApplicationController
-    before_action :set_floor
+    before_action :set_floor, only: [:index, :show]
+    before_action :require_set_floor, except: [:index, :show]
     before_action :set_area, only: [:show, :update, :destroy]
   
     # GET /floors/:floor_id/areas
+    # GET /areas
     def index
-      json_response(@floor.areas)
+      @areas = @floor.areas if @floor
+      @areas = Area.all unless @floor
+      json_response(@areas)
     end
   
     # GET /floors/:floor_id/areas/:id
+    # GET /areas/:id
     def show
       json_response(@area)
     end
@@ -36,11 +41,16 @@ class AreasController < ApplicationController
       params.permit(:name, :data)
     end
   
-    def set_floor
+    def require_set_floor
       @floor = Floor.find(params[:floor_id])
+    end
+
+    def set_floor
+      @floor = Floor.find(params[:floor_id]) if params[:floor_id]
     end
   
     def set_area
       @area = @floor.areas.find_by!(id: params[:id]) if @floor
+      @area = Area.find_by!(id: params[:id]) unless @floor
     end
   end
