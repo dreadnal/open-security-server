@@ -1,0 +1,8 @@
+
+log/development\.log
+
+log/test\.log
+
+db/development\.sqlite3
+
+db/test\.sqlite3
