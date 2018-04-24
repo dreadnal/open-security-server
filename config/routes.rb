@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  resources :floors do
-    resources :areas
-    resources :cameras, only: [:index, :show]
+  resources :floors, only: [:index, :show] do # checked
+    resources :areas, only: [:index, :show] # checked
+    resources :cameras, only: [:index, :show] # checked
     resources :sensors, only: [:index, :show]
     resources :events, only: [:index, :show] do
       collection do
@@ -9,7 +9,7 @@ Rails.application.routes.draw do
         get 'unread'
       end
     end
-    resources :event_types, only: [] do
+    resources :event_types, only: [] do # checked
       resources :events, only: [:index] do
         collection do
           get 'read'
@@ -19,15 +19,16 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :areas, only: [:index, :show] do
-    resources :cameras, :sensors
+  resources :areas, only: [:index, :show] do # checked
+    resources :cameras, only: [:index, :show] # checked
+    resources :sensors
     resources :events, only: [:index, :show] do
       collection do
         get 'read'
         get 'unread'
       end
     end
-    resources :event_types, only: [] do
+    resources :event_types, only: [] do # checked
       resources :events, only: [:index] do
         collection do
           get 'read'
@@ -37,7 +38,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :sensor_types do
+  resources :sensor_types, only: [:index, :show] do # checked
     resources :sensors, only: [:index, :show]
   end
 
@@ -50,7 +51,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :event_types do
+  resources :event_types, only: [:index, :show] do # checked
     resources :events, only: [:index, :show] do
       collection do
         get 'read'
@@ -66,7 +67,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :cameras, only: [:index, :show]
+  resources :cameras, only: [:index, :show] #checked
   
   resources :settings
 end

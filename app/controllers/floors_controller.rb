@@ -1,16 +1,11 @@
 class FloorsController < ApplicationController
-  before_action :set_floor, only: [:show, :update, :destroy]
+  before_action :authorize_device
+  before_action :set_floor, only: [:show]
   
   # GET /floors
   def index
     @floors = Floor.all
     json_response(@floors)
-  end
-
-  # POST /floors
-  def create
-    @floor = Floor.create!(floor_params)
-    json_response(@floor, :created)
   end
   
   # GET /floors/:id
@@ -18,22 +13,13 @@ class FloorsController < ApplicationController
     json_response(@floor)
   end
 
-  # PUT /floors/:id
-  def update
-    @floor.update(floor_params)
-    head :no_content
-  end
-
-  # DELETE /floors/:id
-  def destroy
-    @floor.destroy
-    head :no_content
-  end
-
   private
-  
-  def floor_params
-    params.permit(:name, :position, :data)
+
+  def authorize_device
+    @device = Device.find_by(api_key: request.headers['Authorization'])
+    return true if @device
+    json_response('Authorization failed', :forbidden)
+    return false
   end
   
   def set_floor

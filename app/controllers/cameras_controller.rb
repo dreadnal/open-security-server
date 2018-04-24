@@ -1,8 +1,8 @@
 class CamerasController < ApplicationController
-  before_action :set_area, only: [:index, :show]
-  before_action :require_set_area, except: [:index, :show]
-  before_action :set_floor, only: [:index, :show]
-  before_action :set_camera, only: [:show, :update, :destroy]
+  before_action :authorize_device
+  before_action :set_area
+  before_action :set_floor
+  before_action :set_camera, only: [:show]
     
   # GET /floors/:floor_id/cameras
   # GET /areas/:area_id/cameras
@@ -13,12 +13,6 @@ class CamerasController < ApplicationController
     @cameras = Camera.all unless @floor || @area
     json_response(@cameras)
   end
-  
-  # POST /areas/:area_id/cameras
-  def create
-    @camera = @area.cameras.create!(camera_params)
-    json_response(@camera, :created)
-  end
     
   # GET /floors/:floor_id/cameras/:id
   # GET /areas/:area_id/cameras/:id
@@ -26,27 +20,14 @@ class CamerasController < ApplicationController
   def show
     json_response(@camera)
   end
-  
-  # PUT /areas/:area_id/cameras/:id
-  def update
-    @camera.update(camera_params)
-    head :no_content
-  end
-
-  # DELETE /areas/:area_id/cameras/:id
-  def destroy
-    @camera.destroy
-    head :no_content
-  end
 
   private
-  
-  def camera_params
-    params.permit(:name, :address, :note, :data)
-  end
-  
-  def require_set_area
-    @area = Area.find(params[:area_id])
+
+  def authorize_device
+    @device = Device.find_by(api_key: request.headers['Authorization'])
+    return true if @device
+    json_response('Authorization failed', :forbidden)
+    return false
   end
 
   def set_area
