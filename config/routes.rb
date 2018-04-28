@@ -1,72 +1,71 @@
 Rails.application.routes.draw do
-  resources :floors do
-    resources :areas
-    resources :cameras, only: [:index, :show]
-    resources :sensors, only: [:index, :show]
-    resources :events, only: [:index, :show] do
+  resources :floors, only: [:index, :show] do # checked
+    resources :areas, only: [:index, :show] # checked
+    resources :cameras, only: [:index, :show] # checked
+    resources :sensors, only: [:index, :show] # checked
+    resources :events, only: [:index, :show] do # checked
       collection do
-        get 'read'
-        get 'unread'
+        get 'read' #checked
+        get 'unread' #checked
       end
     end
-    resources :event_types, only: [] do
-      resources :events, only: [:index] do
+    resources :event_types, only: [] do # checked
+      resources :events, only: [:index] do # checked
         collection do
-          get 'read'
-          get 'unread'
+          get 'read' # checked
+          get 'unread' # checked
         end
       end
     end
   end
 
-  resources :areas, only: [:index, :show] do
-    resources :cameras, :sensors
-    resources :events, only: [:index, :show] do
+  resources :areas, only: [:index, :show] do # checked
+    resources :cameras, only: [:index, :show] # checked
+    resources :sensors, only: [:index, :show] # checked
+    resources :events, only: [:index, :show] do # checked
       collection do
-        get 'read'
-        get 'unread'
+        get 'read' # checked
+        get 'unread' # checked
       end
     end
-    resources :event_types, only: [] do
-      resources :events, only: [:index] do
+    resources :event_types, only: [] do # checked
+      resources :events, only: [:index] do # checked
         collection do
-          get 'read'
-          get 'unread'
+          get 'read' # checked
+          get 'unread' # checked
         end
       end
     end
   end
 
-  resources :sensor_types do
-    resources :sensors, only: [:index, :show]
+  resources :sensor_types, only: [:index, :show] do # checked
+    resources :sensors, only: [:index, :show] # checked
   end
 
-  resources :sensors, only: [:index, :show] do
-    resources :events do
+  resources :sensors, only: [:index, :show] do # checked
+    resources :events, only: [:index, :show, :create] do # checked
       collection do
-        get 'read'
-        get 'unread'
+        get 'read' # checked
+        get 'unread' # checked
       end
     end
   end
 
-  resources :event_types do
-    resources :events, only: [:index, :show] do
+  resources :event_types, only: [:index, :show] do # checked
+    resources :events, only: [:index, :show] do # checked
       collection do
-        get 'read'
-        get 'unread'
+        get 'read' # checked
+        get 'unread' # checked
       end
     end
   end
 
-  resources :events, only: [:index, :show] do
+  resources :events, only: [:index, :show] do # checked
     collection do
-      get 'read'
-      get 'unread'
+      get 'read' # checked
+      get 'unread' # checked
     end
   end
 
-  resources :cameras, only: [:index, :show]
-  
-  resources :settings
+  resources :cameras, only: [:index, :show] #checked
 end

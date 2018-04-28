@@ -1,10 +1,12 @@
 class EventsController < ApplicationController
+  before_action :authorize_device, except: [:create]
+  before_action :require_set_sensor, only: [:create]
+  before_action :authorize_sensor, only: [:create]
   before_action :set_sensor, only: [:index, :show, :unread, :read]
-  before_action :require_set_sensor, except: [:index, :show, :unread, :read]
   before_action :set_floor, only: [:index, :show, :unread, :read]
   before_action :set_area, only: [:index, :show, :unread, :read]
   before_action :set_event_type, only: [:index, :show, :unread, :read]
-  before_action :set_event, only: [:show, :update, :destroy]
+  before_action :set_event, only: [:show]
 
   # GET /floors/:floor_id/events
   # GET /floors/:floor_id/event_types/:event_type_id/events
@@ -74,19 +76,21 @@ class EventsController < ApplicationController
     json_response(@event)
   end
 
-  # PUT /sensors/:sensor_id/events/:id
-  def update
-    @event.update(event_params)
-    head :no_content
-  end
-
-  # DELETE /sensor/:sensor_id/events/:id
-  def destroy
-    @event.destroy
-    head :no_content
-  end
-
   private
+
+  def authorize_device
+    @device = Device.find_by(api_key: request.headers['Authorization'])
+    return true if @device
+    json_response('Authorization failed', :forbidden)
+    return false
+  end
+
+  def authorize_sensor
+    @sensor_sender = Sensor.find_by(api_key: request.headers['Authorization'])
+    return true if @sensor_sender && @sensor_sender.id == @sensor.id
+    json_response('Authorization failed', :forbidden)
+    return false
+  end
 
   def event_params
     params.permit(:event_type_id, :state)
