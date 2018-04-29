@@ -4,5 +4,5 @@ class Area < ApplicationRecord
 
   belongs_to :floor
 
-  validates_presence_of :name, :data
+  validates_presence_of :name
 end

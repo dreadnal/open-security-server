@@ -5,5 +5,4 @@ RSpec.describe Floor, type: :model do
 
   it { should validate_presence_of(:name) }
   it { should validate_presence_of(:position) }
-  it { should validate_presence_of(:data) }
 end

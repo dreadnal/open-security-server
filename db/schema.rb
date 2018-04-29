@@ -10,12 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180422223536) do
+ActiveRecord::Schema.define(version: 20180429144823) do
 
   create_table "areas", force: :cascade do |t|
     t.integer "floor_id"
     t.string "name"
-    t.text "data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["floor_id"], name: "index_areas_on_floor_id"
@@ -26,7 +25,6 @@ ActiveRecord::Schema.define(version: 20180422223536) do
     t.string "name"
     t.string "address"
     t.string "note"
-    t.text "data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["area_id"], name: "index_cameras_on_area_id"
@@ -59,7 +57,6 @@ ActiveRecord::Schema.define(version: 20180422223536) do
   create_table "floors", force: :cascade do |t|
     t.string "name"
     t.integer "position"
-    t.text "data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -79,7 +76,6 @@ ActiveRecord::Schema.define(version: 20180422223536) do
     t.string "name"
     t.string "address"
     t.string "note"
-    t.text "data"
     t.string "api_key"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
