@@ -1,3 +1,5 @@
+require 'securerandom'
+
 FactoryBot.define do
     factory :device do
   

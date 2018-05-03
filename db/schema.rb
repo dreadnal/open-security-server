@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180429144823) do
+ActiveRecord::Schema.define(version: 20180429145801) do
 
   create_table "areas", force: :cascade do |t|
     t.integer "floor_id"
@@ -35,6 +35,8 @@ ActiveRecord::Schema.define(version: 20180429144823) do
     t.string "api_key"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "verified"
+    t.string "one_time_password"
   end
 
   create_table "event_types", force: :cascade do |t|
@@ -79,6 +81,8 @@ ActiveRecord::Schema.define(version: 20180429144823) do
     t.string "api_key"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "verified"
+    t.string "one_time_password"
     t.index ["area_id"], name: "index_sensors_on_area_id"
     t.index ["sensor_type_id"], name: "index_sensors_on_sensor_type_id"
   end

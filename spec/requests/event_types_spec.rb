@@ -4,7 +4,8 @@ RSpec.describe 'EventTypes API', type: :request do
   let!(:event_types) { create_list(:event_type, 10) }
   let(:event_type_id) { event_types.first.id }
   let!(:device) { create(:device) }
-  let(:header) { { 'Authorization' => device.api_key } }
+  let(:api_key) { device.verify(device.one_time_password) }
+  let(:header) { { 'Authorization' => api_key } }
   let(:invalid_header) { { 'Authorization' => 'foo bar' } }
 
   # Test suite for GET /event_types

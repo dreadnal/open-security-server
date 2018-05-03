@@ -67,5 +67,11 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :devices, only: [] do # checked
+    member do
+      post 'verify' # checked
+    end
+  end
+
   resources :cameras, only: [:index, :show] #checked
 end

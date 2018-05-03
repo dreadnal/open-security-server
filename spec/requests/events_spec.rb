@@ -14,7 +14,8 @@ RSpec.describe 'Event API', type: :request do
   let(:event_type_id) { event_type.id }
   let(:event_id) { events.first.id }
   let!(:device) { create(:device) }
-  let(:header) { { 'Authorization' => device.api_key } }
+  let(:api_key) { device.verify(device.one_time_password) }
+  let(:header) { { 'Authorization' => api_key } }
   let(:header_sensor) { { 'Authorization' => sensor.api_key } }
   let(:invalid_header) { { 'Authorization' => 'foo bar' } }
 

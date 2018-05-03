@@ -80,7 +80,7 @@ class EventsController < ApplicationController
 
   def authorize_device
     @device = Device.find_by(api_key: request.headers['Authorization'])
-    return true if @device
+    return true if @device && @device.verified
     json_response('Authorization failed', :forbidden)
     return false
   end

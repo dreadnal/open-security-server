@@ -4,7 +4,8 @@ RSpec.describe 'SensorTypes API', type: :request do
   let!(:sensor_types) { create_list(:sensor_type, 10) }
   let(:sensor_type_id) { sensor_types.first.id }
   let!(:device) { create(:device) }
-  let(:header) { { 'Authorization' => device.api_key } }
+  let(:api_key) { device.verify(device.one_time_password) }
+  let(:header) { { 'Authorization' => api_key } }
   let(:invalid_header) { { 'Authorization' => 'foo bar' } }
 
   # Test suite for GET /sensor_types

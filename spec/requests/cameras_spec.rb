@@ -8,7 +8,8 @@ RSpec.describe 'Cameras API', type: :request do
   let(:area_id) {area.id}
   let(:camera_id) { cameras.first.id }
   let!(:device) { create(:device) }
-  let(:header) { { 'Authorization' => device.api_key } }
+  let(:api_key) { device.verify(device.one_time_password) }
+  let(:header) { { 'Authorization' => api_key } }
   let(:invalid_header) { { 'Authorization' => 'foo bar' } }
 
   # Test suite for GET /cameras
