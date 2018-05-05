@@ -5,7 +5,7 @@ class DevicesController < ApplicationController
   def verify
     api_key = @device.verify(params[:one_time_password])
     json_response('Verification failed', :forbidden) if api_key.nil?
-    json_response( { api_key: api_key } ) unless api_key.nil?
+    json_response( { api_key: api_key, device_name: @device.name } ) unless api_key.nil?
   end
   
   private
