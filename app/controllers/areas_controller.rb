@@ -8,13 +8,13 @@ class AreasController < ApplicationController
   def index
     @areas = @floor.areas if @floor
     @areas = Area.all unless @floor
-    json_response(@areas)
+    json_response(@areas.to_json(include: :floor))
   end
 
   # GET /floors/:floor_id/areas/:id
   # GET /areas/:id
   def show
-    json_response(@area)
+    json_response(@area.to_json(include: :floor))
   end
 
   private

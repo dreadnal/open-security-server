@@ -5,7 +5,7 @@ class FloorsController < ApplicationController
   # GET /floors
   def index
     @floors = Floor.all
-    json_response(@floors)
+    json_response(@floors.to_json(include: :areas))
   end
   
   # GET /floors/:id

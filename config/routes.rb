@@ -71,6 +71,9 @@ Rails.application.routes.draw do
     member do
       post 'verify' # checked
     end
+    collection do
+      get 'check' # checked
+    end
   end
 
   resources :cameras, only: [:index, :show] #checked
