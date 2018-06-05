@@ -10,38 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180429145801) do
+ActiveRecord::Schema.define(version: 1) do
 
   create_table "areas", force: :cascade do |t|
     t.integer "floor_id"
     t.string "name"
+    t.text "verticles"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["floor_id"], name: "index_areas_on_floor_id"
   end
 
-  create_table "cameras", force: :cascade do |t|
-    t.integer "area_id"
-    t.string "name"
-    t.string "address"
-    t.string "note"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["area_id"], name: "index_cameras_on_area_id"
-  end
-
   create_table "devices", force: :cascade do |t|
     t.string "name"
+    t.boolean "verified"
     t.string "api_key"
+    t.string "one_time_password"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "verified"
-    t.string "one_time_password"
   end
 
   create_table "event_types", force: :cascade do |t|
     t.string "name"
-    t.string "icon"
+    t.string "ref_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -63,35 +54,34 @@ ActiveRecord::Schema.define(version: 20180429145801) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "sensor_types", force: :cascade do |t|
-    t.string "name"
-    t.string "icon"
-    t.string "model"
-    t.string "note"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "sensors", force: :cascade do |t|
-    t.integer "area_id"
-    t.integer "sensor_type_id"
-    t.string "name"
-    t.string "address"
-    t.string "note"
-    t.string "api_key"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "verified"
-    t.string "one_time_password"
-    t.index ["area_id"], name: "index_sensors_on_area_id"
-    t.index ["sensor_type_id"], name: "index_sensors_on_sensor_type_id"
-  end
-
-  create_table "settings", force: :cascade do |t|
-    t.string "name"
+  create_table "preferences", force: :cascade do |t|
+    t.string "key"
     t.string "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "sensor_types", force: :cascade do |t|
+    t.string "name"
+  end
+
+  create_table "system_modules", force: :cascade do |t|
+    t.integer "area_id"
+    t.string "name"
+    t.string "type"
+    t.float "position_x"
+    t.float "position_y"
+    t.float "position_z"
+    t.float "rotation_x"
+    t.float "rotation_y"
+    t.float "rotation_z"
+    t.integer "sensor_type_id"
+    t.string "address"
+    t.string "api_key"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["area_id"], name: "index_system_modules_on_area_id"
+    t.index ["sensor_type_id"], name: "index_system_modules_on_sensor_type_id"
   end
 
 end
